@@ -60,9 +60,15 @@ bulletin-service：
 
 
 
-mysql:
+mysql（单体）：
 
-redis:6379
+* 服务端口：3306
+
+
+
+redis（单体）：
+
+ * 服务端口：6379
 
 
 ## 3.核心问题
