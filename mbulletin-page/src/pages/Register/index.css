@@ -1,0 +1,98 @@
+.Register {
+    background-image: url(../../assets/img/register-background.jpg);
+    background-size: cover;
+}
+
+#content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#board {
+    background-color: #FFFFFF;
+    opacity: 60%;
+    border-radius: 20px;
+    box-shadow: 7px 15px 30px #285a63;
+    padding: 50px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    /*padding-top: 100px;*/
+    /*padding-bottom: 50px;*/
+    /*padding-left: 50px;*/
+    /*padding-right: 50px;*/
+}
+
+#main_title {
+    color: rgba(18,7,138,0.92);
+    font-size: 80px;
+}
+
+#sub_title {
+    color: darkblue;
+    font-size: 30px;
+}
+
+#left_character {
+    font-size: 23px;
+}
+
+#character {
+    font-size: 30px;
+}
+
+#register_board {
+    background-color: #FFFFFF;
+    opacity: 60%;
+    border-radius: 20px;
+    box-shadow: 7px 15px 30px #285a63;
+    padding: 50px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+#register_user_info {
+    color: rgba(86,18,214,0.92);
+    text-align: center;
+}
+
+.left_prompt_msg {
+    color: rgba(37,20,138,0.95);
+    font-size: 16px;
+    text-align: right;
+}
+
+.right_prompt_msg {
+    text-align: center;
+
+}
+
+#checkPicture {
+    width: 100px;
+    height: 50px;
+    background-color: #c7254e;
+}
+
+#register_btn_div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#register_btn {
+    width: 200px;
+    height: 50px;
+    background-color: blue;
+}
+
+#forget_password_div {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#forget_password_btn {
+    margin-top: 100px;
+    color: crimson;
+}
+
+.row_div {
+    margin-top: 10px;
+}

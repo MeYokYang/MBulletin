@@ -1,0 +1,25 @@
+.Index {
+    background-image: url(../../assets/img/index-background.jpg);
+    background-size: cover;
+}
+
+#content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#board {
+    background-color: #FFFFFF;
+    opacity: 60%;
+    border-radius: 20px;
+    box-shadow: 7px 15px 30px #285a63;
+    padding: 50px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+#character {
+    font-size: 30px;
+}
+
+

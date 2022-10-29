@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: bulletin-service # spring应用名
+  profiles:
+    active: pro
+    cloud:
+      nacos:
+        server-addr: localhost:8848 # nacos地址
+#        config:
+#          namespace: 743c953d-a699-45ab-a680-79159fe87ad0
+#          file-extension: yaml # 文件后缀名

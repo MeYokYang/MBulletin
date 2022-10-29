@@ -1,0 +1,36 @@
+.Home {
+    background-image: url(../../assets/img/home-background.jpg);
+    background-size: cover;
+}
+
+#content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#board {
+    background-color: #FFFFFF;
+    opacity: 60%;
+    border-radius: 20px;
+    box-shadow: 7px 15px 30px #285a63;
+    padding: 50px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+}
+
+#character {
+    font-size: 30px;
+}
+
+#home_navigation {
+    background-color: #FFFFFF;
+    opacity: 50%;
+    padding: 10px;
+}
+
+#home_title {
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}

@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    gateway:
+      routes: # 网关路由配置
+        - id: user-service # 路由id
+          uri: lb://userservice # 路由目标地址
+          predicates: # 路由断言
+            - Path=/users/**
+        - id: device-service # 路由id
+          uri: lb://deviceservice # 路由目标地址
+          predicates: # 路由断言
+            - Path=/devices/**
+        - id: bulletin-service # 路由id
+          uri: lb://bulletinservice # 路由目标地址
+          predicates: # 路由断言
+            - Path=/bulletins/**
+
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:  # 允许前端的跨域请求
+              - "http://localhost:3000"
+              - "https://localhost:3000"
+            allowedMethods: # 允许的跨域ajax的请求方法
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: # 允许在请求中携带的头信息
+              - "*"
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期

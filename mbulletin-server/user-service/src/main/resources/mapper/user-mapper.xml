@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.meyok.user.mapper.UserDao">
+
+    <sql id="insertPrivacyInfoFields">
+        snowflake_id, email, username, pwd, salt, gmt_create, gmt_modified
+    </sql>
+
+    <sql id="selectPrivacyInfoFields">
+        id, snowflake_id, email, username, pwd, salt, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="saveUserPrivacyInfo" parameterType="userPrivacyInfoDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_privacy_info (<include refid="insertPrivacyInfoFields"/>)
+        VALUES(#{snowflakeId}, #{email}, #{username}, #{pwd}, #{salt}, UTC_TIMESTAMP(), UTC_TIMESTAMP())
+    </insert>
+
+
+    <resultMap id="UserPrivacyInfoMap" type="UserPrivacyInfoDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="snowflake_id" jdbcType="BIGINT" property="snowflakeId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="pwd" jdbcType="CHAR" property="pwd"/>
+        <result column="salt" jdbcType="CHAR" property="salt"/>
+        <result column="gmt_create" jdbcType="DATE" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="DATE" property="gmtModified" />
+    </resultMap>
+
+    <select id="getUserPrivacyInfoByEmail" parameterType="String" resultMap="UserPrivacyInfoMap">
+        SELECT <include refid="selectPrivacyInfoFields"/>
+        FROM user_privacy_info
+        WHERE email = #{email}
+    </select>
+
+
+    <sql id="insertCertifyInfoFields">
+        snowflake_id, check_code, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="saveUserCertifyInfo" parameterType="userCertifyInfoDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_certify_info (<include refid="insertCertifyInfoFields"/>)
+        VALUES(#{snowflakeId}, #{checkCode}, UTC_TIMESTAMP(), UTC_TIMESTAMP())
+    </insert>
+
+    <resultMap id="UserCertifyInfoMap" type="UserCertifyInfoDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="snowflake_id" jdbcType="BIGINT" property="snowflakeId"/>
+        <result column="is_certified" jdbcType="TINYINT" property="certified"/>
+        <result column="check_code" jdbcType="CHAR" property="checkCode"/>
+        <result column="gmt_create" jdbcType="DATE" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="DATE" property="gmtModified" />
+    </resultMap>
+
+    <select id="getUserCertifyInfoByEmail" parameterType="String" resultMap="UserCertifyInfoMap">
+        SELECT
+            uc.id, uc.snowflake_id, uc.is_certified, uc.check_code, uc.gmt_create, uc.gmt_modified
+        FROM user_certify_info uc, user_privacy_info pi
+        WHERE uc.snowflake_id = pi.snowflake_id
+            AND pi.email = #{email}
+    </select>
+
+    <update id="updateCertifiedIsTrueAtUserCertifyInfo" parameterType="String">
+        UPDATE user_certify_info AS uc, user_privacy_info AS up
+        SET is_certified = 1
+        WHERE uc.snowflake_id = up.snowflake_id
+            AND up.email = #{email};
+    </update>
+
+</mapper>

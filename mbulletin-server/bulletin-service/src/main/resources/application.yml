@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+spring:
+  main:
+    banner-mode: off # ??banner
+
+  datasource: # mysql??
+    driver-class-name: com.mysql.jdbc.Driver # ?????
+    url: jdbc:mysql:///mbulletin?serverTimezone=UTC&useSSL=false  # ???????url
+    username: root  # ???
+    password: root  # ??
+
+  redis: # redis??
+    host: localhost
+    port: 6379

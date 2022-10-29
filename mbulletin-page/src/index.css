@@ -1,0 +1,12 @@
+html, body {
+  height: 100%;
+  font-family: "Microsoft YaHei UI";
+  color: #333;
+  background-color: #FFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@import "~antd/dist/antd.css";

@@ -1,0 +1,24 @@
+.Information {
+    background-color: #FFFFFF;
+    opacity: 50%;
+    padding: 30px;
+}
+
+#statement {
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #c7254e;
+}
+
+#message {
+    color: #c7254e;
+}
+
+#copyright {
+    text-align: center;
+}
+
+#contact {
+    text-align: right;
+}

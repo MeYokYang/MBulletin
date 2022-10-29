@@ -1,0 +1,21 @@
+server:
+  port: 16011
+
+spring:
+  main:
+    banner-mode: off # 关闭banner
+
+mybatis:
+  mapper-locations: classpath:mapper/*  # mapper文件配置地址
+  type-aliases-package: top.meyok.user.pojo.po # 实体别名
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名法映射数据库字段
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: .
+
+snowflake: # 雪花算法配置
+  worker: 20 # 机房id
+  datacenter: 10 # 机器id
