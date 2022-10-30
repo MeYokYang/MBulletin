@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCertifyInfoDO {
+public class UserCertifyDO {
     private Long id;
     private Long snowflakeId;
     private Byte certified;

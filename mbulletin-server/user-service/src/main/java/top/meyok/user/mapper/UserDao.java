@@ -1,9 +1,8 @@
 package top.meyok.user.mapper;
 
 
-import top.meyok.user.pojo.dto.EmailPasswordSaltDTO;
-import top.meyok.user.pojo.po.UserCertifyInfoDO;
-import top.meyok.user.pojo.po.UserPrivacyInfoDO;
+import top.meyok.user.pojo.po.UserCertifyDO;
+import top.meyok.user.pojo.po.UserPrivacyDO;
 
 /**
  * @author meyok@meyok.org
@@ -11,14 +10,14 @@ import top.meyok.user.pojo.po.UserPrivacyInfoDO;
  */
 public interface UserDao {
 
-    void saveUserPrivacyInfo(UserPrivacyInfoDO userPrivacyInfoDO);
-    UserPrivacyInfoDO getUserPrivacyInfoByEmail(String email);
+    void saveUserPrivacy(UserPrivacyDO userPrivacyDO);
+    UserPrivacyDO getUserPrivacyByEmail(String email);
 
 
-    void saveUserCertifyInfo(UserCertifyInfoDO userCertifyInfoDO);
-    UserCertifyInfoDO getUserCertifyInfoByEmail(String email);
+    void saveUserCertify(UserCertifyDO userCertifyDO);
+    UserCertifyDO getUserCertifyByEmail(String email);
 
-    void updateCertifiedIsTrueAtUserCertifyInfo(String email);
+    void updateCertifiedIsTrueAtUserCertify(String email);
 
 
 

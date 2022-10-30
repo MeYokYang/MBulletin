@@ -7,16 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.ObjectUtils;
-import top.meyok.user.constants.AccountStatusEnum;
-import top.meyok.user.constants.ShiroConstants;
+import top.meyok.user.constant.AccountStatusEnum;
+import top.meyok.user.constant.ShiroConsts;
 import top.meyok.user.mapper.UserDao;
 import top.meyok.user.pojo.dto.UserBaseInfoDTO;
 import top.meyok.user.pojo.dto.UserCertifyInfoDTO;
-import top.meyok.user.pojo.po.UserCertifyInfoDO;
+import top.meyok.user.pojo.po.UserCertifyDO;
+import top.meyok.user.pojo.po.UserPrivacyDO;
 import top.meyok.user.util.SnowflakeWorkerUtils;
 import top.meyok.user.pojo.dto.EmailPasswordSaltDTO;
 import top.meyok.user.pojo.dto.UserRegisterInfoDTO;
-import top.meyok.user.pojo.po.UserPrivacyInfoDO;
 import top.meyok.user.service.UserService;
 import top.meyok.user.util.RandomCharacterUtils;
 
@@ -44,17 +44,17 @@ public class UserServiceImpl implements UserService {
 
         AccountStatusEnum STATUS;
 
-        UserPrivacyInfoDO userPrivacyInfo = userDao.getUserPrivacyInfoByEmail(email);
-        if (ObjectUtils.isEmpty(userPrivacyInfo)) {
+        UserPrivacyDO userPrivacy = userDao.getUserPrivacyByEmail(email);
+        if (ObjectUtils.isEmpty(userPrivacy)) {
             // 未查询到账户，为未注册
             STATUS = AccountStatusEnum.UNREGISTERED;
         } else {
-            UserCertifyInfoDO userCertifyInfo = userDao.getUserCertifyInfoByEmail(email);
-            if (ObjectUtils.isEmpty(userCertifyInfo)) {
+            UserCertifyDO userCertify = userDao.getUserCertifyByEmail(email);
+            if (ObjectUtils.isEmpty(userCertify)) {
                 // 未成功添加认证信息
                 STATUS = AccountStatusEnum.ERROR;
             } else {
-                if (userCertifyInfo.getCertified() == 0) {
+                if (userCertify.getCertified() == 0) {
                     // 已经注册，但未激活
                     STATUS = AccountStatusEnum.REGISTERED_BUT_NONACTIVATED;
                 } else {
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 注册用户信息，需要填入user_privacy_info、user_certify_info表，事务相关
+     * 注册用户信息，需要填入user_privacy、user_certify表，事务相关
      * @param userRegisterInfoDTO
      * @return
      */
@@ -79,37 +79,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean registerUserInfo(UserRegisterInfoDTO userRegisterInfoDTO) {
 
-        // 1.填入user_privacy_info表
+        // 1.填入user_privacy表
         // 雪花id
         Long snowflakeId = SnowflakeWorkerUtils.getSnowflakeId();
         // 盐值
         String salt = RandomCharacterUtils.getSalt(32);
         // 密码，前端转来的密码进行加盐、哈希散列处理
-        String pwd = new Md5Hash(userRegisterInfoDTO.getPassword(), salt, ShiroConstants.HASH_ITERATION).toHex();
+        String pwd = new Md5Hash(userRegisterInfoDTO.getPassword(), salt, ShiroConsts.HASH_ITERATION).toHex();
 
-        UserPrivacyInfoDO userPrivacyInfoDO = new UserPrivacyInfoDO();
-        userPrivacyInfoDO.setSnowflakeId(snowflakeId);
-        userPrivacyInfoDO.setEmail(userRegisterInfoDTO.getEmail());
-        userPrivacyInfoDO.setUsername(userRegisterInfoDTO.getUsername());
-        userPrivacyInfoDO.setPwd(pwd);
-        userPrivacyInfoDO.setSalt(salt);
+        UserPrivacyDO userPrivacy = new UserPrivacyDO();
+        userPrivacy.setSnowflakeId(snowflakeId);
+        userPrivacy.setEmail(userRegisterInfoDTO.getEmail());
+        userPrivacy.setUsername(userRegisterInfoDTO.getUsername());
+        userPrivacy.setPwd(pwd);
+        userPrivacy.setSalt(salt);
 
 
-        // 2.填入user_certify_info表
+        // 2.填入user_certify表
         // 邮箱激活码
         String checkCode = RandomCharacterUtils.getPictureCheckCode(32);
-        UserCertifyInfoDO userCertifyInfoDO = new UserCertifyInfoDO();
-        userCertifyInfoDO.setSnowflakeId(snowflakeId);
-        userCertifyInfoDO.setCheckCode(checkCode);
+        UserCertifyDO userCertify = new UserCertifyDO();
+        userCertify.setSnowflakeId(snowflakeId);
+        userCertify.setCheckCode(checkCode);
 
         try {
-            userDao.saveUserPrivacyInfo(userPrivacyInfoDO);
-            userDao.saveUserCertifyInfo(userCertifyInfoDO);
+            userDao.saveUserPrivacy(userPrivacy);
+            userDao.saveUserCertify(userCertify);
 
             return true;
 
         } catch (Exception e) {
-            LOGGER.error("insert user info ro user_privacy_info and user_certify_info failed.error info: {}", e.getMessage());
+            LOGGER.error("insert user info ro user_privacy and user_certify failed.error info: {}", e.getMessage());
             // 手动回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public EmailPasswordSaltDTO getPasswordInfo(String email) {
         // TODO: MeYok 2022/09/02 事务管理
-        UserPrivacyInfoDO userPrivacyInfo = userDao.getUserPrivacyInfoByEmail(email);
+        UserPrivacyDO userPrivacyInfo = userDao.getUserPrivacyByEmail(email);
         EmailPasswordSaltDTO emailPasswordSaltDTO = new EmailPasswordSaltDTO();
         emailPasswordSaltDTO.setEmail(email);
         emailPasswordSaltDTO.setPassword(userPrivacyInfo.getPwd());
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             UserCertifyInfoDTO userCertifyInfoDTO = new UserCertifyInfoDTO();
-            UserCertifyInfoDO userCertifyInfo = userDao.getUserCertifyInfoByEmail(email);
+            UserCertifyDO userCertifyInfo = userDao.getUserCertifyByEmail(email);
 
             // 未查询到相关用户信息
             if (ObjectUtils.isEmpty(userCertifyInfo)) {
@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void activateUserAccountInfo(String email) {
         LOGGER.info("activate user account: email={}", email);
-        userDao.updateCertifiedIsTrueAtUserCertifyInfo(email);
+        userDao.updateCertifiedIsTrueAtUserCertify(email);
     }
 
 
@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserBaseInfoDTO getUserBaseInfo(String email) {
-        UserPrivacyInfoDO userPrivacyInfo = userDao.getUserPrivacyInfoByEmail(email);
+        UserPrivacyDO userPrivacyInfo = userDao.getUserPrivacyByEmail(email);
 
         if (ObjectUtils.isEmpty(userPrivacyInfo)) {
             LOGGER.info("account info not found: email={}", email);

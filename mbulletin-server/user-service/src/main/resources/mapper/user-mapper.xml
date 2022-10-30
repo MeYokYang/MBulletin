@@ -5,22 +5,21 @@
 
 <mapper namespace="top.meyok.user.mapper.UserDao">
 
-    <sql id="insertPrivacyInfoFields">
+    <!-- user_privacy相关 -->
+    <!-- insert -->
+    <sql id="insertUserPrivacyFields">
         snowflake_id, email, username, pwd, salt, gmt_create, gmt_modified
     </sql>
-
-    <sql id="selectPrivacyInfoFields">
-        id, snowflake_id, email, username, pwd, salt, gmt_create, gmt_modified
-    </sql>
-
-    <insert id="saveUserPrivacyInfo" parameterType="userPrivacyInfoDO"
+    <insert id="saveUserPrivacy" parameterType="userPrivacyDO"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user_privacy_info (<include refid="insertPrivacyInfoFields"/>)
+        INSERT INTO user_privacy (<include refid="insertUserPrivacyFields"/>)
         VALUES(#{snowflakeId}, #{email}, #{username}, #{pwd}, #{salt}, UTC_TIMESTAMP(), UTC_TIMESTAMP())
     </insert>
-
-
-    <resultMap id="UserPrivacyInfoMap" type="UserPrivacyInfoDO">
+    <!-- select -->
+    <sql id="selectUserPrivacyFields">
+        id, snowflake_id, email, username, pwd, salt, gmt_create, gmt_modified
+    </sql>
+    <resultMap id="UserPrivacyMap" type="userPrivacyDO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="snowflake_id" jdbcType="BIGINT" property="snowflakeId"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
@@ -30,25 +29,24 @@
         <result column="gmt_create" jdbcType="DATE" property="gmtCreate" />
         <result column="gmt_modified" jdbcType="DATE" property="gmtModified" />
     </resultMap>
-
-    <select id="getUserPrivacyInfoByEmail" parameterType="String" resultMap="UserPrivacyInfoMap">
-        SELECT <include refid="selectPrivacyInfoFields"/>
-        FROM user_privacy_info
+    <select id="getUserPrivacyByEmail" parameterType="String" resultMap="UserPrivacyMap">
+        SELECT <include refid="selectUserPrivacyFields"/>
+        FROM user_privacy
         WHERE email = #{email}
     </select>
 
-
-    <sql id="insertCertifyInfoFields">
+    <!-- user_privacy相关 -->
+    <!-- insert -->
+    <sql id="insertUserCertifyFields">
         snowflake_id, check_code, gmt_create, gmt_modified
     </sql>
-
-    <insert id="saveUserCertifyInfo" parameterType="userCertifyInfoDO"
+    <insert id="saveUserCertify" parameterType="userCertifyDO"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user_certify_info (<include refid="insertCertifyInfoFields"/>)
+        INSERT INTO user_certify (<include refid="insertUserCertifyFields"/>)
         VALUES(#{snowflakeId}, #{checkCode}, UTC_TIMESTAMP(), UTC_TIMESTAMP())
     </insert>
-
-    <resultMap id="UserCertifyInfoMap" type="UserCertifyInfoDO">
+    <!-- select -->
+    <resultMap id="UserCertifyMap" type="userCertifyDO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="snowflake_id" jdbcType="BIGINT" property="snowflakeId"/>
         <result column="is_certified" jdbcType="TINYINT" property="certified"/>
@@ -56,17 +54,16 @@
         <result column="gmt_create" jdbcType="DATE" property="gmtCreate" />
         <result column="gmt_modified" jdbcType="DATE" property="gmtModified" />
     </resultMap>
-
-    <select id="getUserCertifyInfoByEmail" parameterType="String" resultMap="UserCertifyInfoMap">
+    <select id="getUserCertifyByEmail" parameterType="String" resultMap="UserCertifyMap">
         SELECT
             uc.id, uc.snowflake_id, uc.is_certified, uc.check_code, uc.gmt_create, uc.gmt_modified
-        FROM user_certify_info uc, user_privacy_info pi
+        FROM user_certify uc, user_privacy pi
         WHERE uc.snowflake_id = pi.snowflake_id
             AND pi.email = #{email}
     </select>
-
-    <update id="updateCertifiedIsTrueAtUserCertifyInfo" parameterType="String">
-        UPDATE user_certify_info AS uc, user_privacy_info AS up
+    <!-- update -->
+    <update id="updateCertifiedIsTrueAtUserCertify" parameterType="String">
+        UPDATE user_certify AS uc, user_privacy AS up
         SET is_certified = 1
         WHERE uc.snowflake_id = up.snowflake_id
             AND up.email = #{email};
