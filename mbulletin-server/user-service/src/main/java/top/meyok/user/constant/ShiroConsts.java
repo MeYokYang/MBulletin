@@ -1,10 +1,10 @@
-package top.meyok.user.constants;
+package top.meyok.user.constant;
 
 /**
  * @author meyok@meyok.org
  * @date 2022/8/29 22:41
  */
-public class ShiroConstants {
+public class ShiroConsts {
     /**
      * 加密算法
      */

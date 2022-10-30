@@ -1,4 +1,4 @@
-package top.meyok.user.constants;
+package top.meyok.user.constant;
 
 /**
  * @author meyok@mbulletin.meyok.top
