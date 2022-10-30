@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPrivacyInfoDO {
+public class UserPrivacyDO {
 
     private Long id;
     private Long snowflakeId;

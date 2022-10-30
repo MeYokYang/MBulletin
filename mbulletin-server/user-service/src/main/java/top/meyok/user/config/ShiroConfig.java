@@ -7,8 +7,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import top.meyok.user.constants.ShiroConstants;
+import top.meyok.user.constant.ShiroConsts;
 import top.meyok.user.shiro.cache.RedisCacheManager;
 import top.meyok.user.shiro.dao.CustomSessionDAO;
 import top.meyok.user.shiro.realm.CustomerRealm;
@@ -84,8 +83,8 @@ public class ShiroConfig {
 
         // 修改凭证校验匹配器
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName(ShiroConstants.ENCRYPTION_ALGORITHM);
-        hashedCredentialsMatcher.setHashIterations(ShiroConstants.HASH_ITERATION);
+        hashedCredentialsMatcher.setHashAlgorithmName(ShiroConsts.ENCRYPTION_ALGORITHM);
+        hashedCredentialsMatcher.setHashIterations(ShiroConsts.HASH_ITERATION);
         customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 
         // 开启全局缓存

@@ -1,6 +1,6 @@
 package top.meyok.user.service;
 
-import top.meyok.user.constants.AccountStatusEnum;
+import top.meyok.user.constant.AccountStatusEnum;
 import top.meyok.user.pojo.dto.EmailPasswordSaltDTO;
 import top.meyok.user.pojo.dto.UserBaseInfoDTO;
 import top.meyok.user.pojo.dto.UserCertifyInfoDTO;

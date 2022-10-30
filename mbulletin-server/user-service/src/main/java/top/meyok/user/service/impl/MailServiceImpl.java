@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import top.meyok.user.constants.CompanyInfoConstants;
+import top.meyok.user.constant.CompanyInfoConsts;
 import top.meyok.user.pojo.dto.MailDTO;
 import top.meyok.user.service.MailService;
 
@@ -32,7 +32,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendSimpleMail(MailDTO mail) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(from + "(" + CompanyInfoConstants.COMPANY_NAME + ")");
+        simpleMailMessage.setFrom(from + "(" + CompanyInfoConsts.COMPANY_NAME + ")");
         simpleMailMessage.setSubject(mail.getSubject());
         simpleMailMessage.setText(mail.getContent());
 
@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper mimeMessageHelper;
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(from + "(" + CompanyInfoConstants.COMPANY_NAME + ")");
+            mimeMessageHelper.setFrom(from + "(" + CompanyInfoConsts.COMPANY_NAME + ")");
             mimeMessageHelper.setSubject(mail.getSubject());
             mimeMessageHelper.setText(mail.getContent(), true);
 
@@ -72,7 +72,7 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper mimeMessageHelper;
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(from + "(" + CompanyInfoConstants.COMPANY_NAME + ")");
+            mimeMessageHelper.setFrom(from + "(" + CompanyInfoConsts.COMPANY_NAME + ")");
             mimeMessageHelper.setSubject(mail.getSubject());
             mimeMessageHelper.setText(mail.getContent(), true);
 
